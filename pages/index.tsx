@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div>
+    <div className=" mx-auto max-w-xl">
     </div>
   )
 }
