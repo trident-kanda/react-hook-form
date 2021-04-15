@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import Modal from "react-modal";
+import Result from "../compornents/Result";
+Modal.setAppElement("#__next");
 export default function Home() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState<form>({ email: "", password: "", name: "" });
+  const [modalState, stateChange] = useState(false);
   const {
     handleSubmit,
     register,
@@ -14,9 +18,16 @@ export default function Home() {
   };
   const onSubmit = (data: form) => {
     setData(data);
+    stateChange(true);
   };
+  const closeModal = useCallback(() => {
+    stateChange(false);
+  }, [stateChange]);
   return (
     <div className="h-screen flex center items-center justify-center">
+      <Modal isOpen={modalState}>
+        <Result userData={data} closeModal={closeModal} />
+      </Modal>
       <div className=" sm:max-w-xl bg-white  w-full sm:rounded-lg p-5 shadow">
         <h2 className="text-center text-3xl font-bold text-red-500">Form</h2>
         <div className="  border-b-2 border-black " />
@@ -64,7 +75,7 @@ export default function Home() {
           <input
             type="submit"
             value="送信"
-            className="mx-auto mt-5 block w-32 py-2 bg-pink-400 text-white rounded-md"
+            className="mx-auto mt-5 block w-32 py-2 bg-pink-400 text-white rounded-md focus:outline-none hover:bg-pink-300"
           />
         </form>
       </div>
